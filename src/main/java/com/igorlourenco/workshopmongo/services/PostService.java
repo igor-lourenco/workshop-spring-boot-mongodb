@@ -1,5 +1,6 @@
 package com.igorlourenco.workshopmongo.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,13 @@ public class PostService {
 		return usuario;
 	}
 	
-	public List<Post> busarPorTitulo(String texto){
-		return repo.findByTtileContainingIgnoreCase(texto);
+	public List<Post> buscarPorTitulo(String texto){
+		return repo.procurarTitulo(texto);
+	}
+	
+	public List<Post> buscaCompleta(String texto, Date minData, Date maxData){
+		maxData = new Date(maxData.getTime() + 24 * 60 * 60 * 1000);
+		return repo.buscaCompleta(texto, minData, maxData);
 	}
  
 }

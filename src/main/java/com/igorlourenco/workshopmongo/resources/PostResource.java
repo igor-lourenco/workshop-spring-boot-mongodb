@@ -1,5 +1,6 @@
 package com.igorlourenco.workshopmongo.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,19 @@ public class PostResource {
 	@RequestMapping(value = "/titlesearch", method = RequestMethod.GET)	
 	public ResponseEntity<List<Post>> buscarPorTitulo(@RequestParam(value = "text", defaultValue = "") String texto){
 		texto = URL.decodeParam(texto);
-		List<Post> lista = servico.busarPorTitulo(texto);
+		List<Post> lista = servico.buscarPorTitulo(texto);
+		return ResponseEntity.ok().body(lista);
+	}
+	
+	@RequestMapping(value = "/buscacompleta", method = RequestMethod.GET)	
+	public ResponseEntity<List<Post>> buscaCompleta(
+			@RequestParam(value = "texto", defaultValue = "") String texto,
+			@RequestParam(value = "minData", defaultValue = "") String minData,
+			@RequestParam(value = "maxData", defaultValue = "") String maxData){
+		texto = URL.decodeParam(texto);
+		Date min = URL.converterData(minData, new Date(0l));
+		Date max = URL.converterData(maxData, new Date());
+		List<Post> lista = servico.buscaCompleta(texto, min, max);
 		return ResponseEntity.ok().body(lista);
 	}
 }
