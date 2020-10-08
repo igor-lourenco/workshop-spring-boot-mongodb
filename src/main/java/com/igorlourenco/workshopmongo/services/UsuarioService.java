@@ -39,6 +39,18 @@ public class UsuarioService {
 		repo.deleteById(id);
 	}
 	
+	public Usuario atualizar(Usuario obj) {
+		Usuario newObj = repo.findOne(obj.getId());
+		atualizarDados(newObj, obj);
+		return repo.save(newObj);
+	}
+	
+	private void atualizarDados(Usuario newObj, Usuario obj) {
+		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
+		
+	}
+
 	public Usuario fromDTO(UsuarioDTO objDto) {
 		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail());
 	}
